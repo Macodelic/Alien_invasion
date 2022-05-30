@@ -9,10 +9,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static int HEIGHT = 800;
     private Color bgColor;
 
+    public static Thread gameThread;
     public static PlayerShip ship = new PlayerShip();
     public static Alien alien = new Alien(0,0);
+    public static GameStats stats = new GameStats();
 
-    private Thread gameThread;
     private int FPS = 30;
 
     public GamePanel() {
@@ -41,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             long currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
+
 
             if (delta >= 1.0) {
                 update();

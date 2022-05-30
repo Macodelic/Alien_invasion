@@ -10,7 +10,7 @@ public class Alien {
     private BufferedImage alienImg;
     private int x;
     private int y;
-    private double speedFactor;
+    private int speedFactor;
 
     private final int size;
 
@@ -22,14 +22,12 @@ public class Alien {
     public static ArrayList<Alien> aliens = new ArrayList<>();
     private int fleetDropSpeed;
     private int fleetDirection;
-    private boolean isDead;
 
     public Alien(int x, int y) {
         size = 48;
         this.x = x;
         this.y = y;
-        speedFactor = 1;
-        isDead = false;
+        speedFactor = 2;
         getAlienImg();
 
         availableSpaceX = GamePanel.WIDTH - (2 * size);
@@ -49,8 +47,16 @@ public class Alien {
         }
     }
 
-    public boolean getIsDead() {
-        return isDead;
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public void createFleet () {
@@ -79,12 +85,21 @@ public class Alien {
 
     public void changeFleetDirection() {
         for (Alien alien: aliens) {
-            y += fleetDropSpeed;
+            alien.y += fleetDropSpeed;
         }
         fleetDirection *= -1;
     }
 
-    public void collisionDetect() {
+    public void checkAliensBottom() {
+        for (Alien alien: Alien.aliens) {
+            if ( alien.y >= GamePanel.HEIGHT - alien.size) {
+                GamePanel.ship.shipHit();
+                break;
+            }
+        }
+    }
+
+    public void checkBulletAlienCollision() {
         for (int i = 0; i < PlayerShip.bullets.size(); i++) {
             Bullet bullet = PlayerShip.bullets.get(i);
 
@@ -94,12 +109,16 @@ public class Alien {
                 if ( (bullet.getY() - bullet.getHeight() <= alien.y
                         && bullet.getY() >= alien.y - size)
                         && (bullet.getX() + bullet.getWidth() >= alien.x
-                        && alien.x + alien.size >= bullet.getX())) {
+                        && alien.x + alien.size >= bullet.getX()) ) {
 
                     Alien.aliens.remove(alien);
                     PlayerShip.bullets.remove(bullet);
                     break;
                 }
+            }
+            if (Alien.aliens.isEmpty()) {
+                PlayerShip.bullets.removeAll(PlayerShip.bullets);
+                createFleet();
             }
         }
     }
@@ -115,7 +134,8 @@ public class Alien {
     }
 
     public void update() {
-        collisionDetect();
+        checkAliensBottom();
+        checkBulletAlienCollision();
         checkFleetEdges();
         x += speedFactor * fleetDirection;
     }
