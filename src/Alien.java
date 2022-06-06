@@ -27,7 +27,7 @@ public class Alien {
         size = 48;
         this.x = x;
         this.y = y;
-        speedFactor = 2;
+        speedFactor = 5;
         getAlienImg();
 
         availableSpaceX = GamePanel.WIDTH - (2 * size);
@@ -35,7 +35,7 @@ public class Alien {
         availableSpaceY = GamePanel.HEIGHT - (5 * size) - size;
         numberRows = availableSpaceY / (2 * size);
 
-        fleetDropSpeed = 1;
+        fleetDropSpeed = 10;
         fleetDirection = 1;
     }
 
@@ -84,6 +84,7 @@ public class Alien {
     }
 
     public void changeFleetDirection() {
+
         for (Alien alien: aliens) {
             alien.y += fleetDropSpeed;
         }
@@ -137,6 +138,7 @@ public class Alien {
         checkAliensBottom();
         checkBulletAlienCollision();
         checkFleetEdges();
+
         x += speedFactor * fleetDirection;
     }
 }

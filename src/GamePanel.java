@@ -13,16 +13,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static PlayerShip ship = new PlayerShip();
     public static Alien alien = new Alien(0,0);
     public static GameStats stats = new GameStats();
+    public static PlayButton button = new PlayButton();
 
     private int FPS = 30;
 
     public GamePanel() {
         super();
         addKeyListener(this);
+        setLayout(null);
         setFocusable(true);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(bgColor);
         setDoubleBuffered(true);
+        add(button);
     }
 
     public void startGameThread() {
@@ -45,7 +48,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 
             if (delta >= 1.0) {
+
+            if (stats.getGameActive()) {
                 update();
+            }
+
                 repaint();
                 delta--;
             }
@@ -83,8 +90,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             Alien.aliens.get(i).draw(graphics2D);
         }
 
+        stats.draw(graphics2D);
 
-        graphics2D.dispose();
+
+//        graphics2D.dispose();
         Toolkit.getDefaultToolkit().sync();
         }
 
@@ -110,6 +119,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             case KeyEvent.VK_Q:
                 System.exit(0);
                 break;
+            case KeyEvent.VK_ENTER:
+                if (!GamePanel.stats.getGameActive()) {
+                    GamePanel.button.startGame();
+                }
         }
     }
 

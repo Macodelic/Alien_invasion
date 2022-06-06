@@ -26,7 +26,7 @@ public class PlayerShip {
         x = GamePanel.WIDTH / 2;
         y = GamePanel.HEIGHT - size;
         speed = 4;
-        limit = 3;
+        limit = 2;
         bulletsAllowed = 100;
         bullets = new ArrayList<>();
         getShipImg();
@@ -79,19 +79,25 @@ public class PlayerShip {
 
     public void shipHit() {
 
-        GamePanel.stats.shipLeft -= 1;
+        if (GameStats.shipLeft > 0) {
+            GameStats.shipLeft--;
 
-        Alien.aliens.removeAll(Alien.aliens);
-        bullets.removeAll(bullets);
+            Alien.aliens.removeAll(Alien.aliens);
+            bullets.removeAll(bullets);
 
-        GamePanel.alien.createFleet();
-        centerShip();
+            GamePanel.alien.createFleet();
+            centerShip();
 
-        long l = 500;
-        try {
-            Thread.sleep(l);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            long l = 500;
+            try {
+                Thread.sleep(l);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            GamePanel.stats.setGameActive(false);
+            GamePanel.button.setVisible(true);
         }
 
     }
