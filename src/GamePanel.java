@@ -14,6 +14,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static Alien alien = new Alien(0,0);
     public static GameStats stats = new GameStats();
     public static PlayButton button = new PlayButton();
+    public static Bullet bullet = new Bullet(0, 0);
 
     private int FPS = 30;
 

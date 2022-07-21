@@ -7,12 +7,11 @@ public class Bullet {
     private int height;
     private int x;
     private int y;
-    private double speed;
+    private static int speed = 3;
     private boolean isExist;
 
 
     public Bullet(int x, int y) {
-        speed = 5;
         width = 3;
         height = 15;
         this.x = x;
@@ -35,6 +34,14 @@ public class Bullet {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public void draw(Graphics2D graphics2D) {

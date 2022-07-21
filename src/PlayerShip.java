@@ -25,8 +25,8 @@ public class PlayerShip {
         size = 48;
         x = GamePanel.WIDTH / 2;
         y = GamePanel.HEIGHT - size;
-        speed = 4;
-        limit = 2;
+        speed = 2;
+        limit = 3;
         bulletsAllowed = 100;
         bullets = new ArrayList<>();
         getShipImg();
@@ -49,6 +49,14 @@ public class PlayerShip {
 
     public int getLimit() {
         return limit;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public void getShipImg() {
@@ -82,8 +90,8 @@ public class PlayerShip {
         if (GameStats.shipLeft > 0) {
             GameStats.shipLeft--;
 
-            Alien.aliens.removeAll(Alien.aliens);
-            bullets.removeAll(bullets);
+            Alien.aliens.clear();
+            bullets.clear();
 
             GamePanel.alien.createFleet();
             centerShip();
@@ -121,7 +129,7 @@ public class PlayerShip {
 
         checkPlayerAlienCollision();
 
-        if (left && x != 0) {
+        if (left && x > 0) {
             x -= speed;
         }
         if (right && x != GamePanel.WIDTH - size) {

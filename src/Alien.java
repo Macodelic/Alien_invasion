@@ -10,7 +10,8 @@ public class Alien {
     private BufferedImage alienImg;
     private int x;
     private int y;
-    private int speedFactor;
+    private static int speedFactor = 1;
+    private int speedUpScale;
 
     private final int size;
 
@@ -27,7 +28,7 @@ public class Alien {
         size = 48;
         this.x = x;
         this.y = y;
-        speedFactor = 5;
+        speedUpScale = 1;
         getAlienImg();
 
         availableSpaceX = GamePanel.WIDTH - (2 * size);
@@ -35,7 +36,7 @@ public class Alien {
         availableSpaceY = GamePanel.HEIGHT - (5 * size) - size;
         numberRows = availableSpaceY / (2 * size);
 
-        fleetDropSpeed = 10;
+        fleetDropSpeed = 1;
         fleetDirection = 1;
     }
 
@@ -118,10 +119,17 @@ public class Alien {
                 }
             }
             if (Alien.aliens.isEmpty()) {
-                PlayerShip.bullets.removeAll(PlayerShip.bullets);
+                PlayerShip.bullets.clear();
+                increaseSpeed();
                 createFleet();
             }
         }
+    }
+
+    public void increaseSpeed() {
+        GamePanel.ship.setSpeed(GamePanel.ship.getSpeed() + speedUpScale);
+        GamePanel.bullet.setSpeed(GamePanel.bullet.getSpeed() + 10);
+        speedFactor += speedUpScale;
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -132,6 +140,7 @@ public class Alien {
                 , size
                 , size
                 , null);
+
     }
 
     public void update() {

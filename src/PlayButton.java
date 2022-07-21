@@ -17,8 +17,8 @@ public class PlayButton extends JButton implements ActionListener {
     }
 
     public void startGame() {
-        Alien.aliens.removeAll(Alien.aliens);
-        PlayerShip.bullets.removeAll(PlayerShip.bullets);
+        Alien.aliens.clear();
+        PlayerShip.bullets.clear();
 
         GamePanel.alien.createFleet();
         GamePanel.ship.centerShip();
